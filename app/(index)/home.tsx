@@ -2,8 +2,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
-import { Appearance, StyleSheet, Switch } from "react-native";
+import { Appearance, StyleSheet, Switch, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Character from "@/assets/images/C2.svg";
 
 const HomeScreen = () => {
   const [dark, setDark] = useState(Appearance.getColorScheme() === "dark");
@@ -29,6 +30,8 @@ const HomeScreen = () => {
           Create your habit with TooToro
         </ThemedText>
         <Switch onValueChange={toggleDark} value={dark} />
+
+        <Character width={150} height={150} />
       </ThemedView>
     </SafeAreaView>
   );

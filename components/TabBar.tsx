@@ -17,13 +17,13 @@ const TabBar: React.FC<BottomTabBarProps> = ({
   const bgColorCreate = theme === "dark" ? "#737373" : "#FF9500";
 
   const icons: Record<string, (props: { color: string }) => JSX.Element> = {
-    index: (props) => <FontAwesome name="home" size={26} {...props} />,
+    home: (props) => <FontAwesome name="home" size={26} {...props} />,
     settings: (props) => <FontAwesome name="gear" size={26} {...props} />,
     create: (props) => <AntDesign name="pluscircle" size={20} {...props} />,
   };
 
   const customLabels: Record<string, string> = {
-    index: "Home",
+    home: "Home",
     settings: "Profile",
     create: "Create",
   };
