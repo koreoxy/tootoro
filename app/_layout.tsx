@@ -13,6 +13,8 @@ import {
   Chivo_500Medium,
   Chivo_800ExtraBold,
   Chivo_900Black,
+  Chivo_400Regular_Italic,
+  Chivo_500Medium_Italic,
 } from "@expo-google-fonts/chivo";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -26,6 +28,8 @@ export default function RootLayout() {
     Chivo_500Medium,
     Chivo_800ExtraBold,
     Chivo_900Black,
+    Chivo_400Regular_Italic,
+    Chivo_500Medium_Italic,
   });
 
   useEffect(() => {
@@ -41,14 +45,8 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen
-          name="index"
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="(index)"
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(index)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

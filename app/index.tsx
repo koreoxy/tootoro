@@ -11,7 +11,7 @@ import Chat from "@/assets/images/chat.svg";
 import { useEffect, useState } from "react";
 
 export default function Index() {
-  const text = `Let's make your habit\ntogether.`;
+  const text = `Let's make your \nhabit together.`;
   const [visibleText, setVisibleText] = useState<string>("");
 
   useEffect(() => {
@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
   },
   animatedText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "Chivo_500Medium_Italic",
     color: "#FFF",
     position: "absolute",
-    top: 300,
-    left: 12,
+    top: 295,
+    left: 16,
     zIndex: 1,
   },
 });
