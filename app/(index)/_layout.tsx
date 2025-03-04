@@ -8,6 +8,7 @@ const TabLayout = () => {
       <Tabs.Screen name="home" options={{ headerShown: false }} />
       <Tabs.Screen name="settings" options={{ headerShown: false }} />
       <Tabs.Screen name="create" options={{ headerShown: false }} />
+      <Tabs.Screen name="[id]" options={{ headerShown: false }} />
     </Tabs>
   );
 };

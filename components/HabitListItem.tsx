@@ -9,7 +9,7 @@ type HabitListItemProps = {
 
 const HabitListItem = ({ habit }: HabitListItemProps) => {
   return (
-    <Link href={"/"} asChild>
+    <Link href={`/${habit.id}`} asChild>
       <Pressable style={styles.card}>
         <View style={styles.content}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
