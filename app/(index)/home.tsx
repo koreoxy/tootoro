@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   sectionHabitList: {
     marginTop: 230,
-    marginBottom: 80,
+    // marginBottom: 80,
   },
   grid: {
     flexDirection: "column",
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     gap: 10,
     maxWidth: "100%",
     padding: 5,
+    marginBottom: 100,
   },
 });
 
