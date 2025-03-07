@@ -1,5 +1,4 @@
 import {
-  Appearance,
   SafeAreaView,
   StyleSheet,
   Switch,
@@ -7,26 +6,17 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ThemedView } from "@/components/ThemedView";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { storage } from "@/lib/storage";
+import { useMMKVBoolean } from "react-native-mmkv";
 
 const SettingsScreen = () => {
-  const [dark, setDark] = useState(Appearance.getColorScheme() === "dark");
+  const [dark, setDark] = useMMKVBoolean("dark-mode", storage);
 
-  const toggleDark = () => {
-    const newTheme = dark ? "light" : "dark";
-    setDark(!dark);
-    Appearance.setColorScheme?.(newTheme);
-  };
-
-  useEffect(() => {
-    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-      setDark(colorScheme === "dark");
-    });
-
-    return () => subscription.remove();
-  }, []);
+  const toggleDark = () => setDark((prev) => !!!prev);
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <ThemedView style={styles.container}>
@@ -39,7 +29,7 @@ const SettingsScreen = () => {
                 <MaterialIcons name="light-mode" size={24} color="black" />
                 <Text>Theme</Text>
               </View>
-              <Switch onValueChange={toggleDark} value={dark} />
+              <Switch onValueChange={toggleDark} value={dark} trackColor={{ true: "#000" }} />
             </View>
 
             <View

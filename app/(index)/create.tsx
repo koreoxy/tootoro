@@ -5,13 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React from 'react';
-import { ThemedView } from '@/components/ThemedView';
-import Button from '@/components/Button';
-import { ThemedText } from '@/components/ThemedText';
-import { zincColors } from '@/constants/Colors';
-import { create } from 'zustand';
+} from "react-native";
+import React from "react";
+import { ThemedView } from "@/components/ThemedView";
+import Button from "@/components/Button";
+import { ThemedText } from "@/components/ThemedText";
+import { zincColors } from "@/constants/Colors";
+import { create } from "zustand";
 
 type Habit = {
   name: string;
@@ -26,8 +26,8 @@ type HabitStore = {
 
 const useHabitStore = create<HabitStore>((set) => ({
   habit: {
-    name: '',
-    emoji: '🔥',
+    name: "",
+    emoji: "🔥",
     days: [],
   },
   setHabit: (newHabit) =>
@@ -39,19 +39,27 @@ const useHabitStore = create<HabitStore>((set) => ({
 const CreateScreen = () => {
   const { habit, setHabit } = useHabitStore();
 
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
-  const toggleDay = (day : string) => {
+  const toggleDay = (day: string) => {
     setHabit({
       days: habit.days.includes(day)
         ? habit.days.filter((d) => d !== day)
         : [...habit.days, day],
-    })
-    console.warn('Habit Created:', habit);
-  }
+    });
+    console.warn("Habit Created:", habit);
+  };
 
   const handleCreateHabit = () => {
-    console.warn('Habit Created:', habit);
+    console.warn("Habit Created:", habit);
   };
 
   return (
@@ -69,9 +77,7 @@ const CreateScreen = () => {
                 value={habit.name}
                 onChangeText={(text) => setHabit({ name: text })}
               />
-              <TouchableOpacity
-                style={styles.emote}
-              >
+              <TouchableOpacity style={styles.emote}>
                 <Text style={styles.textEmote}>{habit.emoji}</Text>
               </TouchableOpacity>
             </View>
@@ -89,7 +95,7 @@ const CreateScreen = () => {
                   key={index}
                   style={[
                     styles.bgDay,
-                    habit.days.includes(day) && { backgroundColor: '#FF9500' },
+                    habit.days.includes(day) && { backgroundColor: "#FF9500" },
                   ]}
                   onPress={() => toggleDay(day)}
                 >
@@ -98,7 +104,6 @@ const CreateScreen = () => {
               ))}
             </View>
           </View>
-
 
           <Button onPress={handleCreateHabit}>Create habit</Button>
         </View>
@@ -114,55 +119,55 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    height: '100%',
+    height: "100%",
     padding: 16,
   },
   section: {
     marginTop: 20,
   },
   title: {
-    fontFamily: 'Chivo_500Medium',
+    fontFamily: "Chivo_500Medium",
     fontSize: 25,
-    color: '#FF9500',
+    color: "#FF9500",
   },
   sectionInput: {
     marginTop: 10,
   },
   label: {
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 5,
     fontSize: 15,
   },
   input: {
     height: 50,
-    width: '80%',
-    backgroundColor: '#fff',
+    width: "80%",
+    backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 10,
     marginBottom: 15,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   emote: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     width: 50,
     height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   textEmote: {
     fontSize: 25,
   },
   sectionFrequency: {
-    flexDirection: 'column',
+    flexDirection: "column",
     marginTop: 15,
     marginBottom: 15,
   },
   textFrequency: {
-    flexDirection: 'column',
+    flexDirection: "column",
     gap: 2,
   },
   textGray: {
@@ -170,31 +175,30 @@ const styles = StyleSheet.create({
     color: zincColors[400],
   },
   sectionDay: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 5,
     marginTop: 5,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginBottom: 15,
   },
   bgDay: {
-    backgroundColor: '#11181C',
+    backgroundColor: "#11181C",
     borderRadius: 50,
     width: 40,
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   textDate: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   sectionReminder: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 15,
   },
 });
-
