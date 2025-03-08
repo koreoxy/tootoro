@@ -21,7 +21,7 @@ const HabitDetailScreen = () => {
   if (currentWeek.length > 0) weeks.push(currentWeek);
 
   const getColor = (day: Date): string => {
-    const randomIntensity = Math.floor(Math.random() * 4); // Simulasi tingkat aktivitas
+    const randomIntensity = Math.floor(Math.random() * 4);
     return ["#EDEDED", "#A8E6CF", "#56B881", "#37966F"][randomIntensity];
   };
 

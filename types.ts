@@ -1,8 +1,9 @@
 export type Habit = {
-  id: number;
+  id: string;
   name: string;
-  icon: string;
-  currentStreak: number;
-  bestStreak: number;
-  date: string;
+  emoji: string;
+  currentStreak?: number;
+  bestStreak?: number;
+  date?: string;
+  days: string[];
 };

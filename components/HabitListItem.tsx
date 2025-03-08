@@ -14,7 +14,7 @@ const HabitListItem = ({ habit }: HabitListItemProps) => {
         <View style={styles.content}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <View style={styles.iconSection}>
-              <Text style={styles.icon}>{habit.icon}</Text>
+              <Text style={styles.icon}>{habit.emoji}</Text>
             </View>
             <Text style={styles.name}>{habit.name}</Text>
           </View>

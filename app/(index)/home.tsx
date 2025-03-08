@@ -5,10 +5,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Character from "@/assets/images/C2.svg";
 import DateCarousel from "@/components/DateCarousel";
 import Chat from "@/assets/images/chat.svg";
-import habits from "@/assets/data/habits";
 import HabitListItem from "@/components/HabitListItem";
+import { useCallback, useState } from "react";
+import { storage } from "@/lib/storage";
+import { Habit } from "@/types";
+import { useFocusEffect } from "expo-router";
 
 const HomeScreen = () => {
+  const [habits, setHabits] = useState<Habit[]>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchHabits = () => {
+        const storedHabits = storage.getString("habits");
+        if (storedHabits) {
+          setHabits(JSON.parse(storedHabits));
+        }
+      };
+
+      fetchHabits();
+    }, [])
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ThemedView style={styles.container}>
@@ -24,14 +42,14 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
-          {habits && habits.length > 0 ? (
+          {habits.length > 0 ? (
             <View style={styles.grid}>
-              {habits.map((item) => (
-                <HabitListItem key={item.id} habit={item} />
+              {habits.map((habit) => (
+                <HabitListItem key={habit.id} habit={habit} />
               ))}
             </View>
           ) : (
-            <Text>Habits not found</Text>
+            <Text>No habits found</Text>
           )}
         </ScrollView>
       </ThemedView>
@@ -77,7 +95,6 @@ const styles = StyleSheet.create({
   },
   sectionHabitList: {
     marginTop: 230,
-    // marginBottom: 80,
   },
   grid: {
     flexDirection: "column",

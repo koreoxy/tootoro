@@ -13,15 +13,13 @@ import Button from "@/components/Button";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors, zincColors } from "@/constants/Colors";
 import { create } from "zustand";
-
-type Habit = {
-  name: string;
-  emoji: string;
-  days: string[];
-};
+import { storage } from "@/lib/storage";
+import { useRouter } from "expo-router";
+import * as Crypto from "expo-crypto";
+import { Habit } from "@/types";
 
 type HabitStore = {
-  habit: Habit;
+  habit: Omit<Habit, "id" | "currentStreak" | "bestStreak" | "date">;
   setHabit: (newHabit: Partial<Habit>) => void;
 };
 
@@ -38,6 +36,7 @@ const useHabitStore = create<HabitStore>((set) => ({
 }));
 
 const CreateScreen = () => {
+  const router = useRouter();
   const { habit, setHabit } = useHabitStore();
   const colorScheme = useColorScheme();
   const dayBgColor = colorScheme === "dark" ? "#333" : "#11181C";
@@ -62,7 +61,34 @@ const CreateScreen = () => {
   };
 
   const handleCreateHabit = () => {
-    console.warn("Habit Created:", habit);
+    if (!habit.name.trim() || habit.days.length === 0) {
+      console.warn("Please enter a habit name and select at least one day.");
+      return;
+    }
+
+    const newHabit: Habit = {
+      id: Crypto.randomUUID(),
+      name: habit.name,
+      emoji: habit.emoji,
+      days: habit.days,
+      currentStreak: 0,
+      bestStreak: 0,
+      date: new Date().toISOString(),
+    };
+
+    const existingHabits = storage.getString("habits");
+    const parsedHabits: Habit[] = existingHabits
+      ? JSON.parse(existingHabits)
+      : [];
+
+    const newHabits = [...parsedHabits, newHabit];
+
+    storage.set("habits", JSON.stringify(newHabits));
+    console.warn("Habit Created:", newHabit);
+
+    setHabit({ name: "", emoji: "🔥", days: [] });
+
+    router.push("/home");
   };
 
   return (
