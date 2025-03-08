@@ -4,13 +4,14 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import React from "react";
 import { ThemedView } from "@/components/ThemedView";
 import Button from "@/components/Button";
 import { ThemedText } from "@/components/ThemedText";
-import { zincColors } from "@/constants/Colors";
+import { Colors, zincColors } from "@/constants/Colors";
 import { create } from "zustand";
 
 type Habit = {
@@ -38,6 +39,8 @@ const useHabitStore = create<HabitStore>((set) => ({
 
 const CreateScreen = () => {
   const { habit, setHabit } = useHabitStore();
+  const colorScheme = useColorScheme();
+  const dayBgColor = colorScheme === "dark" ? "#333" : "#11181C";
 
   const days = [
     "Monday",
@@ -95,6 +98,7 @@ const CreateScreen = () => {
                   key={index}
                   style={[
                     styles.bgDay,
+                    { backgroundColor: dayBgColor },
                     habit.days.includes(day) && { backgroundColor: "#FF9500" },
                   ]}
                   onPress={() => toggleDay(day)}
@@ -126,9 +130,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title: {
-    fontFamily: "Chivo_500Medium",
+    fontFamily: "Chivo_800ExtraBold",
     fontSize: 25,
-    color: "#FF9500",
+    color: Colors.light.tint,
   },
   sectionInput: {
     marginTop: 10,
@@ -182,7 +186,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   bgDay: {
-    backgroundColor: "#11181C",
     borderRadius: 50,
     width: 40,
     height: 40,

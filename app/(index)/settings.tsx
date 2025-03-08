@@ -11,12 +11,13 @@ import { ThemedView } from "@/components/ThemedView";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { storage } from "@/lib/storage";
 import { useMMKVBoolean } from "react-native-mmkv";
+import { Colors } from "@/constants/Colors";
 
 const SettingsScreen = () => {
   const [dark, setDark] = useMMKVBoolean("dark-mode", storage);
 
   const toggleDark = () => setDark((prev) => !!!prev);
-  
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ThemedView style={styles.container}>
@@ -29,7 +30,11 @@ const SettingsScreen = () => {
                 <MaterialIcons name="light-mode" size={24} color="black" />
                 <Text>Theme</Text>
               </View>
-              <Switch onValueChange={toggleDark} value={dark} trackColor={{ true: "#000" }} />
+              <Switch
+                onValueChange={toggleDark}
+                value={dark}
+                trackColor={{ true: "#000" }}
+              />
             </View>
 
             <View
@@ -69,9 +74,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title: {
-    fontFamily: "Chivo_500Medium",
+    fontFamily: "Chivo_800ExtraBold",
     fontSize: 25,
-    color: "#FF9500",
+    color: Colors.light.tint,
   },
   sectionContent: {
     marginTop: 10,

@@ -5,15 +5,20 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  useColorScheme,
 } from "react-native";
 import { format, addDays, isToday } from "date-fns";
+import { Colors } from "@/constants/Colors";
 
 const TOTAL_DAYS = 15;
 const MIDDLE_INDEX = Math.floor(TOTAL_DAYS / 2);
 
 const DateCarousel = () => {
+  const colorScheme = useColorScheme();
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const flatListRef = useRef<FlatList>(null);
+  const textColor = Colors[colorScheme ?? "light"].text;
 
   const getDates = () => {
     return Array.from({ length: TOTAL_DAYS }, (_, i) =>
@@ -46,7 +51,13 @@ const DateCarousel = () => {
               <Text style={[styles.dayText, today && styles.todayText]}>
                 {format(item, "EEE")}
               </Text>
-              <Text style={[styles.dateText, today && styles.todayText]}>
+              <Text
+                style={[
+                  styles.dateText,
+                  { color: textColor },
+                  today && styles.todayText,
+                ]}
+              >
                 {format(item, "d")}
               </Text>
             </TouchableOpacity>
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    // color: "#333",
   },
   today: {
     backgroundColor: "#FF9500",

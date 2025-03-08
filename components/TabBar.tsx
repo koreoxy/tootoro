@@ -12,7 +12,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
 }) => {
   const theme = useColorScheme();
   const backgroundColor = theme === "dark" ? "#F8F3D9" : "#232323";
-  const primaryColor = theme === "dark" ? "#A0A0A0" : "#F8F3D9";
+  const primaryColor = theme === "dark" ? "#27272a" : "#F8F3D9";
   const greyColor = theme === "dark" ? "#A0A0A0" : "#737373";
   const bgColorCreate = theme === "dark" ? "#737373" : "#FF9500";
 
@@ -90,10 +90,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 50,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
+    elevation: 6,
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
   },
   tabbarItem: {
     flex: 1,
