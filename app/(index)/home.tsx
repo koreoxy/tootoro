@@ -9,7 +9,8 @@ import HabitListItem from "@/components/HabitListItem";
 import { useCallback, useState } from "react";
 import { storage } from "@/lib/storage";
 import { Habit } from "@/types";
-import { useFocusEffect } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
+import Button from "@/components/Button";
 
 const HomeScreen = () => {
   const [habits, setHabits] = useState<Habit[]>([]);
@@ -27,16 +28,22 @@ const HomeScreen = () => {
     }, [])
   );
 
+  // const clearAllHabits = () => {
+  //   storage.clearAll();
+  // };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ThemedView style={styles.container}>
         <Text style={styles.title}>TooToro Habits</Text>
         <DateCarousel />
+
         <Character width={150} height={150} style={styles.image} />
         <Chat width={220} height={150} style={styles.chat} />
         <Text style={styles.textChat}>
           Start your day with water. {"\n"}One glass will energize you!
         </Text>
+
         <ScrollView
           style={styles.sectionHabitList}
           showsHorizontalScrollIndicator={false}
@@ -49,7 +56,12 @@ const HomeScreen = () => {
               ))}
             </View>
           ) : (
-            <Text>No habits found</Text>
+            <View style={styles.notFoundSection}>
+              <Text style={styles.textNotFound}>No habits found</Text>
+              <Link href={"/create"} asChild>
+                <Button variant="ghost">Create a new habit</Button>
+              </Link>
+            </View>
           )}
         </ScrollView>
       </ThemedView>
@@ -103,6 +115,19 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     padding: 5,
     marginBottom: 100,
+  },
+  notFoundSection: {
+    backgroundColor: "#fff",
+    padding: 5,
+    marginTop: 10,
+    borderRadius: 15,
+  },
+  textNotFound: {
+    textAlign: "center",
+    fontSize: 15,
+    marginTop: 10,
+    fontFamily: "Chivo_500Medium_Italic",
+    color: Colors.light.tint,
   },
 });
 

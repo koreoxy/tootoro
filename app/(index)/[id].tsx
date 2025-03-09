@@ -1,10 +1,53 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { zincColors } from "@/constants/Colors";
 import { eachDayOfInterval, format, subDays } from "date-fns";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { storage } from "@/lib/storage";
+import { Habit } from "@/types";
+import Button from "@/components/Button";
 
 const HabitDetailScreen = () => {
+  const { id: habitId } = useLocalSearchParams();
+  const [habit, setHabit] = useState<Habit | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const data = storage.getString("habits");
+    if (data) {
+      try {
+        const allHabit: Habit[] = JSON.parse(data);
+        const dataHabit = allHabit.find((h) => h.id === habitId);
+
+        if (dataHabit) {
+          setHabit(dataHabit);
+        } else {
+          console.log(`habit with id ${habitId} not found`);
+        }
+      } catch (error) {
+        console.log("Error parsing habit data : ", error);
+      }
+    }
+  }, [habitId]);
+
+  const handleDelete = () => {
+    const data = storage.getString("habits");
+    if (data) {
+      try {
+        const allHabit: Habit[] = JSON.parse(data);
+        const updatedHabits = allHabit.filter((h) => h.id !== habitId);
+        storage.set("habits", JSON.stringify(updatedHabits));
+        setHabit(null);
+        console.log(`Habit with id ${habitId} deleted successfully.`);
+
+        router.push("/home");
+      } catch (error) {
+        console.log("Error deleting habit: ", error);
+      }
+    }
+  };
+
   const today = new Date();
   const startDate = subDays(today, 364);
   const days: Date[] = eachDayOfInterval({ start: startDate, end: today });
@@ -19,6 +62,8 @@ const HabitDetailScreen = () => {
     }
   });
   if (currentWeek.length > 0) weeks.push(currentWeek);
+
+  console.warn(habit);
 
   const getColor = (day: Date): string => {
     const randomIntensity = Math.floor(Math.random() * 4);
@@ -40,10 +85,15 @@ const HabitDetailScreen = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
+          <View style={styles.sectionName}>
+            <Text style={styles.titleB}>
+              {habit?.name ?? "habit not found"}
+            </Text>
+          </View>
           <View style={styles.sectionStreak}>
             <View style={styles.contentStreak}>
               <Text style={styles.title}>Current Streak</Text>
-              <Text style={styles.text}>4 🔥</Text>
+              <Text style={styles.text}>{`${habit?.currentStreak}🔥`}</Text>
             </View>
 
             <View
@@ -56,7 +106,7 @@ const HabitDetailScreen = () => {
 
             <View style={styles.contentStreak}>
               <Text style={styles.title}>Best Streak</Text>
-              <Text style={styles.text}>20 🔥</Text>
+              <Text style={styles.text}>{`${habit?.bestStreak}🔥`}</Text>
             </View>
           </View>
 
@@ -116,9 +166,19 @@ const HabitDetailScreen = () => {
             <Text style={styles.textB}>12:00 AM</Text>
           </View>
 
-          <View style={[styles.sectionB, { marginBottom: 120 }]}>
+          <View style={[styles.sectionB, { marginBottom: 10 }]}>
             <Text style={styles.titleB}>Habit Created on</Text>
             <Text style={styles.textB}>July 22, 2024</Text>
+          </View>
+
+          <View style={{ marginBottom: 120 }}>
+            <Button
+              onPress={handleDelete}
+              style={{ backgroundColor: "#dc2626" }}
+              textStyle={{ color: "#fff" }}
+            >
+              Delete
+            </Button>
           </View>
         </ScrollView>
       </ThemedView>
@@ -134,15 +194,28 @@ const styles = StyleSheet.create({
   },
   container: {
     height: "100%",
-    // padding: 16,
   },
   scroll: {
     marginTop: 10,
     marginBottom: "auto",
     padding: 10,
   },
-  sectionStreak: {
+  sectionName: {
     marginTop: 25,
+    backgroundColor: "#F1F3E7",
+    padding: 15,
+    flexDirection: "row",
+    gap: 5,
+    justifyContent: "space-between",
+    borderRadius: 10,
+    elevation: 6,
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+  },
+  sectionStreak: {
+    marginTop: 20,
     backgroundColor: "#F1F3E7",
     padding: 15,
     flexDirection: "row",
@@ -168,7 +241,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   sectionRepitions: {
-    marginTop: 25,
+    marginTop: 20,
     backgroundColor: "#F1F3E7",
     padding: 15,
     flexDirection: "column",
